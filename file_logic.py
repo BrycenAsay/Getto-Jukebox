@@ -1,6 +1,8 @@
 import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog
+import shutil
+import random
 from mutagen.id3 import ID3, TIT2, ID3NoHeaderError
 import os
 
@@ -59,6 +61,24 @@ def replace_file_name(old_song_id, new_file, descriptor=None):
         i += 1
     os.rename(old_file, f"{base}_old_{i}.mp3")
     os.rename(new_file, f"{base}.mp3")
+    set_song_name(Path.home() / "AppData" / "Local" / "GeometryDash" / f"{base}_old_{i}.mp3", song_name_o)
+    if descriptor is not None and descriptor != '':
+        set_song_name(old_file, descriptor)
+    elif song_name_n is not None:
+        set_song_name(old_file, song_name_n)
+
+def copy_file_over(old_song_id, new_file, descriptor=None):
+    old_file = Path.home() / "AppData" / "Local" / "GeometryDash" / (str(old_song_id) + '.mp3')
+    song_name_o = get_song_name(old_file)
+    song_name_n = None
+    if '_old_' in str(new_file):
+        song_name_n = get_song_name(Path.home() / "AppData" / "Local" / "GeometryDash" / new_file)
+    base = str(old_file).replace('.mp3', '')
+    i = 1
+    while os.path.exists(f"{base}_old_{i}.mp3"):
+        i += 1
+    os.rename(old_file, f"{base}_old_{i}.mp3")
+    shutil.copy2(new_file, f"{base}.mp3")
     set_song_name(Path.home() / "AppData" / "Local" / "GeometryDash" / f"{base}_old_{i}.mp3", song_name_o)
     if descriptor is not None and descriptor != '':
         set_song_name(old_file, descriptor)

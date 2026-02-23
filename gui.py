@@ -37,7 +37,7 @@ def gui_runtime():
     descriptor = tk.Entry(root)
     descriptor.pack()
 
-    button = tk.Button(root, text="Save", command=lambda: fl.replace_file_name(combo.get(), fl.selected_path, descriptor.get()))
+    button = tk.Button(root, text="Save", command=lambda: fl.copy_file_over(combo.get(), fl.selected_path, descriptor.get()))
     button.pack()
 
     label8 = tk.Label(root, text="Restore Old Song Versions", font=("Felix Titling", 20))
